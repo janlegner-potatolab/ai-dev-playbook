@@ -13,6 +13,7 @@ mechanisms (guards, gates, templates), not by sentences in a document.
 | --- | --- | --- |
 | [`project-structure-design.md`](project-structure-design.md) | The main guide: project structure, structure rules, build process, how AI development is organized, session management, deployment, typical AI failure modes, structure guards | Always first; § 0 is a one-page summary |
 | [`standards/`](standards/) | Engineering standards: API design, database, domain design, frontend, testing, security, git and CI/CD, performance, data, stack selection, releases | When working on that area; index in § 17 of the guide |
+| [`prompts/`](prompts/) | Ready-to-copy prompts for each step: discovery, specification, spec review, splitting a milestone into GitHub issues, working an issue, review and QA, bug report, session end, overnight run, parallel dispatch | Every time you start a step; the flow is in § 18 of the guide |
 | [`starter-kit/`](starter-kit/) | Files to copy into a new repo: `CLAUDE.md`, agent roles, document templates, guard hooks, ESLint and dependency rules, CI, structure checks and a tested reference area | When starting a project; see [`starter-kit/README.md`](starter-kit/README.md) |
 
 ## Ten principles
@@ -35,9 +36,11 @@ mechanisms (guards, gates, templates), not by sentences in a document.
 
 1. Read § 0 of the guide.
 2. Go through § 3 (build process) and § 14 (new project checklist).
-3. Run discovery and write the specification (§ 4.2, § 5).
+3. Run discovery and write the specification (§ 4.2, § 5; prompts 01 to 03).
 4. After a "go" decision and an architecture draft, copy `starter-kit/` into the new repository
    and follow its README.
+5. Split the first milestone into GitHub issues (§ 18, prompt 04) and start sessions per issue
+   (prompt 05).
 
 ## Structure guards at a glance
 

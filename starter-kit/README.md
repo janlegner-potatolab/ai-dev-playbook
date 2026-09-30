@@ -20,7 +20,10 @@ the project's README.
 | `knip.json`                               | S11 dead code                                                                                                                                                           | § 15.4                |
 | `scripts/structure/`                      | S10 size ratchet, S14 names, S15 migrations, S16 tests, S18 exceptions, S20 report                                                                                      | § 15.4                |
 | `structure-baseline/`                     | exception lists (baseline) for the ratchet (new project: empty)                                                                                                         | § 15.5                |
-| `.github/workflows/ci.yml`                | CI: install from lockfile, typecheck, lint, format, structure checks, tests, build                                                                                      | § 15.6                |
+| `.github/workflows/ci.yml`                | CI: install from lockfile, lint, typecheck, format, structure checks, tests, security audit, build                                                                      | § 15.6                |
+| `.github/ISSUE_TEMPLATE/task.yml`         | issue form for one task: assignment, criteria, placement, must not change, verification, size, who merges, "Where it stands"                                            | § 18.4                |
+| `.github/pull_request_template.md`        | pull request body: criterion moved, evidence, unverified, how to test, decisions                                                                                        | § 18.5                |
+| `scripts/setup-labels.sh`                 | creates the five state labels with `gh`                                                                                                                                 | § 18.3                |
 | `.github/CODEOWNERS`                      | protection of guard configuration                                                                                                                                       | § 15.4 S18            |
 | `docs/discovery/`                         | discovery template                                                                                                                                                      | § 4.2                 |
 | `docs/spec-template.md`                   | specification template                                                                                                                                                  | § 5.1                 |
@@ -49,17 +52,22 @@ the project's README.
    `grep -rn '{{' --exclude-dir=node_modules .`. Mainly `CLAUDE.md` (project, stack, commands,
    accounts and environments), `.github/CODEOWNERS` (`{{OWNER}}`) and the models in `.claude/agents/`
    (uncomment and fill in the `# model:` line).
-4. **Complete `package.json`:** the `build` and `test` scripts deliberately fail until you
-   define them. Add workspaces according to the stack.
+4. **Complete `package.json`:** `test` already runs Vitest (the reference area has tests); the
+   `build` script deliberately fails until you define the build for your stack (e.g. a bundler
+   for the client). Add workspaces according to the stack. Always check the real files rather
+   than trusting this list.
 5. **`npm install`**, then `npm run lint`, `npm run typecheck`, `npm run check:structure`
    and `npx prettier --check .`. On a clean copy of the kit everything passes.
 6. **Glossary:** replace the examples in `docs/glossary.json` with the project's terms. Make sure the
    forbidden words (`forbidden`) do not collide with common technical names (`client`,
    `request`, `response`); the check would flag them across the whole codebase.
 7. **Design deliverables** (`docs/design/`): fill them in before the component library is built.
-8. **Protection of the `main` branch on GitHub:** required check from `ci.yml`, no direct push.
+8. **GitHub work queue:** run `scripts/setup-labels.sh` once to create the state labels; the
+   issue form and pull request template work as soon as they are on the default branch
+   (guide § 18).
+9. **Protection of the `main` branch on GitHub:** required check from `ci.yml`, no direct push.
    CODEOWNERS applies only with "Require review from Code Owners" enabled.
-9. **First commit on a branch, PR, CI green.** Then the reference area (§ 3 step 12).
+10. **First commit on a branch, PR, CI green.** Then the reference area (§ 3 step 12).
 
 ## 4 · Guards and their escape hatches
 

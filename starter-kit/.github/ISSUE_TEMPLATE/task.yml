@@ -1,0 +1,91 @@
+name: Task
+description: One unit of work, sized 1 task = 1 session = 1 worktree = 1 pull request.
+title: "<imperative title, e.g. Add order confirmation endpoint>"
+labels: ["state:inbox"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Fill every field. A task is `state:ready` only when points 1 to 6 are filled; until then it
+        stays `state:inbox` with the open question written below.
+  - type: input
+    id: assignment
+    attributes:
+      label: "1. Assignment"
+      description: 'Binding document and section, e.g. docs/specs/orders.md §M1. Write it as "Assignment: <path> §<section>".'
+      placeholder: "Assignment: docs/specs/<name>.md §M1"
+    validations:
+      required: true
+  - type: textarea
+    id: criteria
+    attributes:
+      label: "2. Acceptance criteria this task moves"
+      description: Copied from the binding document, not invented. What must and must not happen.
+      placeholder: |
+        - [ ] ...
+    validations:
+      required: true
+  - type: textarea
+    id: placement
+    attributes:
+      label: "3. Area, layer, components, reference file"
+      placeholder: |
+        Area: orders
+        Layer: action + router + page
+        Components: Button, TextField, DataState
+        Reference file: server/src/orders/orderActions.ts
+    validations:
+      required: true
+  - type: textarea
+    id: must-not-change
+    attributes:
+      label: "4. Must not change"
+      description: DB schema, API contract, stored data, integrations, or the planned compatible change.
+    validations:
+      required: true
+  - type: textarea
+    id: verification
+    attributes:
+      label: "5. Verification"
+      description: Which tests, against what running system, what evidence goes into the pull request.
+    validations:
+      required: true
+  - type: dropdown
+    id: size
+    attributes:
+      label: "6a. Size"
+      options:
+        - small (a few files, clear change)
+        - medium (several files in one area)
+        - large (30+ steps, 5+ files or a new feature; split into sub-issues)
+    validations:
+      required: true
+  - type: dropdown
+    id: merge
+    attributes:
+      label: "6b. Who merges"
+      options:
+        - human
+        - AI after review and green CI (no deployment on merge)
+    validations:
+      required: true
+  - type: textarea
+    id: open-question
+    attributes:
+      label: "Open question (only for state:inbox)"
+      description: What a human must answer before anyone can start.
+  - type: textarea
+    id: state
+    attributes:
+      label: "Where it stands"
+      description: Rewritten (not commented) by every session that touches the task.
+      value: |
+        ### Where it stands (YYYY-MM-DD)
+        **Assignment:** see field 1
+        **Criteria:** see field 2
+        **Done:** none
+        **Next:** first step
+        **Blockers:** none
+        **PR:** none
+        **Branch:** none
+        **Decisions:** none

@@ -29,7 +29,8 @@ rest. That is why the right **process** and the right **code structure** are enf
 5 task briefs and specifications · 6 repository setup · 7 the cycle of one change · 8 session management ·
 9 parallel work · 10 deployment and operations · 11 typical AI failures · 12 model choice ·
 13 communication, security and memory · 14 checklist · 15 structure guards (detail) ·
-16 configuring the AI itself · 17 related standards
+16 configuring the AI itself · 17 related standards ·
+18 from specification to issues and prompts
 
 ## 1 · Project structure
 
@@ -739,6 +740,7 @@ Suspected prompt injection = stop, record it, flag it.
 - [ ] one reference area
 - [ ] skeleton review by a senior
 - [ ] role definitions, review process, task brief and status templates
+- [ ] GitHub issue form, pull request template and state labels (§ 18)
 - [ ] milestone M0 defined and approved
 
 ## 15 · Structure guards (detail)
@@ -1387,3 +1389,133 @@ Technical standards are in separate documents in the `standards/` folder:
 **Starter kit:** the `starter-kit/` folder contains ready-made files for this guide (document
 templates, `CLAUDE.md`, role definitions, guards, lint and CI configuration, structure check
 scripts). How to use it is in `starter-kit/README.md`.
+
+## 18 · From specification to issues and prompts
+
+How work gets from an approved specification to merged code: where each piece lives, how an
+issue is shaped, how a session is started and what the prompts look like. Ready-to-copy prompts
+are in `prompts/`; the GitHub issue form, pull request template and labels are in the starter kit.
+
+### 18.1 The flow
+
+1. **Discovery document** (`docs/discovery/`), merged through a pull request; the human decides
+   go, kill or redirect (§ 4.2).
+2. **Specification** (`docs/spec.md` or `docs/specs/<name>.md`) in the format of § 5.1, merged
+   through a pull request after review. It names the milestones and their acceptance criteria.
+3. **Design and architecture** (§ 3.1, ADRs), also through pull requests.
+4. **Decomposition:** the orchestrator splits the current milestone into tasks sized
+   1 task = 1 session = 1 worktree = 1 pull request, ordered into waves (§ 9.1).
+5. **Issues:** one **parent issue** per milestone (or per large assignment) that links the
+   binding document; one **sub-issue** per task. Each sub-issue gets a state label (§ 18.3).
+6. **Dispatch:** the human assigns an issue to a session with a one-line prompt (§ 18.7).
+7. **Work:** the session reads the issue in the fixed order (§ 8.1), writes a read-back, works in
+   its own worktree, follows the change cycle (§ 7).
+8. **Pull request** linked to the issue (`Closes #<n>`), reviewed by a fresh agent, squash merged.
+9. **State:** the session rewrites the issue's "Where it stands" section; the merge closes the
+   issue. A real defect found on the way becomes a new `state:ready` sub-issue of the same parent.
+10. **Milestone done** when every sub-issue is closed and the definition of done of the
+    specification is checked; the human approves the next milestone.
+
+### 18.2 What lives where
+
+| Thing | Where | Why |
+| --- | --- | --- |
+| Specification, assignment, ADR, discovery | **file in the repo**, through a pull request | issue bodies cannot be reviewed; anything that must be reviewed has to be a file |
+| Task as a unit of work | **GitHub issue** (sub-issue of a parent) | visible, claimable, queryable |
+| Current state of a task | **one "Where it stands" section in the issue body**, rewritten | a stream of progress comments hides the current state |
+| Decisions | the pull request body or the issue's state section, dated | a decision written nowhere cannot be undone |
+| Rules for sessions | `CLAUDE.md`, `docs/work/parallel-runbook.md` | rules are read from the repo, not pasted into prompts |
+| Evidence of verification | the pull request body | read on purpose, next to the diff |
+
+- **Only one open issue declares a given binding document** (its parent). Further work on the
+  same assignment joins as a sub-issue; it does not declare the document again.
+- **The issue title is a short imperative** ("Add order confirmation endpoint"), not a topic.
+
+### 18.3 Issue states
+
+Exactly one state label on every open issue that is not a pure group (a parent carries none).
+The set is closed; there is no catch-all.
+
+| Label | Meaning | Can be taken |
+| --- | --- | --- |
+| `state:inbox` | raised but not shaped; nobody can start until a human answers the question written in the issue | no |
+| `state:ready` | shaped enough that anyone can start without asking first | yes, while unassigned and not blocked by an open issue |
+| `state:doing` | taken and being worked; has an assignee | no |
+| `state:blocked` | waiting on a person, a decision or an external answer; the reason is written in the issue | no |
+| `state:parked` | a run attempted it and could not finish; a person decides what next; the reason is written | no |
+
+- **Closed** is the final state; GitHub holds it, no label duplicates it.
+- **Taking a task** = assign yourself and move `state:ready` → `state:doing`.
+- **Invariants:** `state:doing` has an assignee; `state:ready` has none. Otherwise work is handed
+  out twice.
+- **A filed defect with "what is wrong" and "what done looks like" written is `state:ready`,**
+  not `state:inbox`.
+- **No priority label.** Order comes from the issue tree and from what the human points a session
+  at; a priority field that nobody re-sorts lies.
+- **Dependencies** use GitHub "blocked by" links, not prose.
+
+### 18.4 Anatomy of a task issue
+
+The issue form in the starter kit (`.github/ISSUE_TEMPLATE/task.yml`) asks for:
+
+1. **Assignment:** path and section of the binding document (`docs/spec.md §M1`).
+2. **Acceptance criteria** this task moves (copied from the document, not invented).
+3. **Area, layer, components and reference file** (where the change belongs).
+4. **Must not change:** DB schema, API contract, stored data, integrations (or the planned
+   compatible change).
+5. **Verification:** which tests, against what running system, what evidence.
+6. **Size** (small, medium, large) and **who merges**.
+7. **Where it stands:** the state section of § 8.3, rewritten by every session that touches the
+   task.
+
+A task is **ready** only when points 1 to 6 are filled. A task the human still has to decide on is
+`state:inbox` with the question in the body.
+
+### 18.5 The pull request
+
+- **Title** in Conventional Commits form (`feat(orders): add confirm endpoint`).
+- **Body** (starter kit template): which acceptance criterion moved (first line), what changed,
+  evidence (test names, command output, browser steps), **Unverified**, how to test, decisions,
+  `Closes #<n>`.
+- **Review record:** review and QA by a fresh agent (§ 7 step 8), at most two rounds.
+- **Merge** by whoever the task says; merge that deploys is merged by a human unless the task
+  explicitly allows it (`standards/standard-git-ci.md` § 13).
+
+### 18.6 Principles for instructing AI
+
+1. **Point, do not paste.** Rules and context live in the repo; the prompt says what to read.
+   Pasted rules drift between sessions.
+2. **Name the goal as an acceptance criterion** and the binding document with its section. "Work
+   on issue 42" is enough when the issue is shaped; a bare title is not.
+3. **Ask for a read-back before work.** The first line of the read-back is the criterion the task
+   must move; a wrong read-back costs one message, a wrong implementation costs a day.
+4. **State the limits:** what must not change, the scope rule (§ 8.2), the time budget and what to
+   do when it expires.
+5. **State how it is verified** and what counts as evidence. "Done" means verified and merged.
+6. **Decisions come back as questions** with 2 to 4 options and a recommendation, never as a
+   guess or a silent default.
+7. **One prompt, one task.** Mixing a refactor with a feature, or two tasks in one session, breaks
+   review and scope.
+8. **Subagent briefs are complete, not compressed** (§ 16.4): the subagent knows only what you
+   write. Name files, fields and constraints in full.
+9. **Never compress security rules,** never ask to "improve anything you see", never ask for a
+   verdict the agent cannot evidence.
+10. **The human dispatches the issue number;** parallel sessions do not pick work themselves.
+
+### 18.7 Prompt library
+
+Ready-to-copy prompts with `{{placeholders}}`, one file per step, in `prompts/`:
+
+| File | Step |
+| --- | --- |
+| `01-discovery.md` | premise check before building |
+| `02-specification.md` | write the specification from discovery and wireframes |
+| `03-spec-review.md` | independent review of a specification |
+| `04-decompose-into-issues.md` | split a milestone into waves and GitHub issues |
+| `05-work-an-issue.md` | start a session on one issue |
+| `06-review-and-qa.md` | brief for the fresh review and QA agent |
+| `07-bug-report.md` | turn a found defect into a ready issue |
+| `08-session-end.md` | close a session cleanly |
+| `09-overnight-run.md` | pre-flight for an unattended run |
+| `10-parallel-dispatch.md` | dispatch several sessions in waves |
+
