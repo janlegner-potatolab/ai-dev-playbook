@@ -3,7 +3,7 @@
 Use when a milestone of an approved specification is ready to build (guide § 9.1, § 18).
 
 ```text
-Decompose milestone {{MILESTONE}} of docs/specs/{{NAME}}.md into GitHub issues. Do not write code.
+Decompose milestone {{MILESTONE}} of {{SPEC_PATH}} into GitHub issues. Do not write code.
 
 1. Read the specification section, docs/architecture.md, docs/work/parallel-runbook.md.
 2. Split the work into tasks of the size 1 task = 1 session = 1 worktree = 1 pull request.
@@ -16,7 +16,7 @@ Decompose milestone {{MILESTONE}} of docs/specs/{{NAME}}.md into GitHub issues. 
 
 After I approve:
 6. Create one parent issue for the milestone with the line
-   "Assignment: docs/specs/{{NAME}}.md §{{MILESTONE}}" and no state label.
+   "Assignment: {{SPEC_PATH}} §{{MILESTONE}}" and no state label.
 7. Create one sub-issue per task with the task form (.github/ISSUE_TEMPLATE/task.yml): assignment,
    acceptance criteria, area and layer, must not change, verification, size, who merges.
    Label shaped tasks state:ready and tasks that wait on my answer state:inbox with the question

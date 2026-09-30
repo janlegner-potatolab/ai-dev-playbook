@@ -2,7 +2,7 @@
 
 Every parallel session reads this file first and follows it for the whole session.
 
-**Dispatch one-liner:** `Read docs/work/parallel-runbook.md and follow it for the whole session. Execute task {{N}}.`
+**Dispatch one-liner:** `Read docs/work/parallel-runbook.md and follow it for the whole session. Work issue #{{N}}.`
 
 ## Unit of work
 

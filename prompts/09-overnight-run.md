@@ -15,8 +15,8 @@ Check and report each point:
    takes the next one; it never invents a default and never stops the whole chain.
 5. State survives the session: in the issues and the repo, not in temporary files.
 6. The runner answers: prove it with one small end-to-end item before I leave.
-7. At the end: reconcile every planned issue as merged, parked with reason, or not started with
-   reason.
+7. At the end: reconcile every planned issue as merged, as a recorded durable output, or with
+   a recorded reason why not (parked or not started).
 
 Stop and escalate on: security finding, production deployment, destructive operation, budget
 exceeded. Budget: {{HOURS}} hours, at most {{N}} issues.

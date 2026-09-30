@@ -3,10 +3,10 @@
 Use after a recorded "go". The output is a document someone builds from (guide § 5.1).
 
 ```text
-Write the specification for {{FEATURE_OR_PRODUCT}} in docs/specs/{{NAME}}.md, using the template
+Write the specification for {{FEATURE_OR_PRODUCT}} in {{SPEC_PATH}} (e.g. docs/spec.md), using the template
 docs/spec-template.md and the rules in guide § 5.1.
 
-Inputs: docs/discovery/{{NAME}}.md (chosen option and risks), wireframes in {{WIREFRAMES_PATH}},
+Inputs: docs/discovery/discovery.md (chosen option and risks), wireframes in {{WIREFRAMES_PATH}},
 docs/domain.md and docs/glossary.json (use glossary terms only; add a missing term first).
 
 Requirements:

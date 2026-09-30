@@ -4,6 +4,10 @@
 
 Closes #<!-- issue number -->
 
+## What and why
+
+<!-- 1 to 2 sentences from the user's perspective -->
+
 ## What changed
 
 -
@@ -23,6 +27,10 @@ Closes #<!-- issue number -->
 ## How to test
 
 1.
+
+## Expected result
+
+<!-- what the tester sees when it passed -->
 
 ## Decisions
 
