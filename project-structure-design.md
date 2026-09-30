@@ -30,7 +30,7 @@ rest. That is why the right **process** and the right **code structure** are enf
 9 parallel work · 10 deployment and operations · 11 typical AI failures · 12 model choice ·
 13 communication, security and memory · 14 checklist · 15 structure guards (detail) ·
 16 configuring the AI itself · 17 related standards ·
-18 from specification to issues and prompts
+18 from specification to issues and prompts · 19 my Claude Code setup
 
 ## 1 · Project structure
 
@@ -339,6 +339,8 @@ does not need an orchestrator and five phases, a large one always does.
 
 ### 6.1 `CLAUDE.md` in the repo: short and stable
 
+> **General knowledge:** `fundamentals/01-claude-md-and-memory.md`.
+
 - project identity: what it is, stack, current milestone;
 - links to `docs/spec.md`, `docs/domain.md`, `docs/architecture.md`;
 - structure rules (§ 2) and the code language;
@@ -356,6 +358,8 @@ A mirrored copy drifts from the original over time and nobody notices.
 
 ### 6.2 Permission settings
 
+> **General knowledge:** `fundamentals/02-settings-and-permissions.md`.
+
 - **Deny list** in `.claude/settings.json`: `rm -rf`, `sudo`, `chmod 777`, `curl … | sh`,
   `nc -l`, `ssh`, `scp` and similar.
 - **No writes** to `.env`, `*.pem`, `*.key`, `*.secret`, `.git/**`.
@@ -363,6 +367,8 @@ A mirrored copy drifts from the original over time and nobody notices.
   untrusted content on the host machine.
 
 ### 6.3 Guards (hooks) travel with the repo
+
+> **General knowledge:** `fundamentals/03-hooks.md`.
 
 Rules that must always be followed are a mechanism in `.claude/hooks/` and
 `.claude/settings.json`, not a sentence in a document. Every session in the repo then gets them, regardless of
@@ -464,6 +470,8 @@ does six things in a row. Each also gets the question "what did you see outside 
 
 ## 8 · Session and context management
 
+> **General knowledge:** `fundamentals/08-context-models-and-cost.md`.
+
 ### 8.1 Starting work on a task (in this order)
 
 1. **Size** of the task (§ 4.5).
@@ -546,6 +554,8 @@ Every loop (cron, scheduled agent, `/loop`, change watcher) has at creation:
 "This should not be a loop" is a valid and often the most valuable conclusion.
 
 ## 9 · Parallel work
+
+> **General knowledge:** `fundamentals/09-worktrees-parallel-and-headless.md`.
 
 ### 9.1 Waves and ownership zones
 
@@ -675,6 +685,8 @@ broken.** A check that stays silent in exactly that case checks nothing.
 
 ## 12 · Model choice
 
+> **General knowledge:** `fundamentals/08-context-models-and-cost.md`.
+
 - **The strongest model where decisions are made:** discovery, planning, analysis, architecture,
   domain model, review.
 - **A cheaper model where work follows a finished pattern:** moves, renames, test
@@ -684,6 +696,8 @@ broken.** A check that stays silent in exactly that case checks nothing.
 - The fastest model only for searching files, not for code changes.
 
 ## 13 · Communication, security and memory
+
+> **General knowledge:** `fundamentals/01-claude-md-and-memory.md` (memory), § 19.3 (my memory practice).
 
 **Messages to the human:**
 
@@ -1223,6 +1237,8 @@ A long story in it is paid for on every run, forever.
 
 ### 16.2 Role definition (subagent)
 
+> **General knowledge:** `fundamentals/04-subagents.md`.
+
 File `.claude/agents/<role>.md`:
 
 ```markdown
@@ -1247,6 +1263,8 @@ When a role has a long procedure, it belongs in a skill and the role definition 
 of truth, no copies.
 
 ### 16.3 Skill
+
+> **General knowledge:** `fundamentals/05-skills-and-commands.md`, `fundamentals/06-plugins-and-marketplaces.md`.
 
 - **The description (`description`) is a trigger, not a biography:** "Use when ...", one or two sentences.
   It is always loaded, so keep it short; a description that is too generic triggers the skill where it should not.
@@ -1358,6 +1376,8 @@ silently run against someone else's instance.
 - [ ] everything promised is done.
 
 ### 16.8 Costs
+
+> **General knowledge:** `fundamentals/08-context-models-and-cost.md`.
 
 - **Budget per task:** time for each subagent (§ 9.3), hard cap on loops (§ 8.6).
 - **Model by the work** (§ 12): strong only where decisions are made.
@@ -1485,6 +1505,8 @@ A task is **ready** only when points 1 to 6 are filled. A task the human still h
 
 ### 18.6 Principles for instructing AI
 
+> **General knowledge:** `fundamentals/10-prompting-basics.md`.
+
 1. **Point, do not paste.** Rules and context live in the repo; the prompt says what to read.
    Pasted rules drift between sessions.
 2. **Name the goal as an acceptance criterion** and the binding document with its section. "Work
@@ -1520,4 +1542,188 @@ Ready-to-copy prompts with `{{placeholders}}`, one file per step, in `prompts/`:
 | `08-session-end.md` | close a session cleanly |
 | `09-overnight-run.md` | pre-flight for an unattended run |
 | `10-parallel-dispatch.md` | dispatch several sessions in waves |
+
+## 19 · My Claude Code setup
+
+How I use each Claude Code building block. The general, documentation-based explanation of
+every block is in `fundamentals/`; this chapter only says what I do with it and why. Read the
+fundamentals file first if the block is new to you.
+
+| Block | General knowledge | My practice |
+| --- | --- | --- |
+| CLAUDE.md and memory | `fundamentals/01-claude-md-and-memory.md` | § 19.2, § 19.3 |
+| Settings and permissions | `fundamentals/02-settings-and-permissions.md` | § 19.4 |
+| Hooks | `fundamentals/03-hooks.md` | § 19.5 |
+| Subagents | `fundamentals/04-subagents.md` | § 19.6 |
+| Skills and commands | `fundamentals/05-skills-and-commands.md` | § 19.7 |
+| Plugins and marketplaces | `fundamentals/06-plugins-and-marketplaces.md` | § 19.8 |
+| MCP servers | `fundamentals/07-mcp.md` | § 19.9 |
+| Context, models and cost | `fundamentals/08-context-models-and-cost.md` | § 19.10 |
+| Worktrees, parallel and headless | `fundamentals/09-worktrees-parallel-and-headless.md` | § 19.11 |
+| Prompting | `fundamentals/10-prompting-basics.md` | § 18.6, `prompts/` |
+
+### 19.1 Two layers: one method repository, many project repositories
+
+- **The method lives in one central repository**: role definitions, skills, knowledge documents,
+  hook sources, templates. It is the single source of truth.
+- **It is reached, not copied.** An orchestrating session is launched from the method repository
+  and reaches the project through an additional working directory. Copies drift and nobody
+  notices.
+- **A project repository carries only a minimal floor:** a short `CLAUDE.md` (identity, safety
+  rules, commands, account map) and the guard hooks with their settings. That floor works for
+  anyone who opens Claude directly in the project, teammate or not, with or without plugins.
+- **Anything needed outside the method repository** (in a session started directly in a project)
+  is distributed as a plugin from a private marketplace (§ 19.8), never pasted into each project.
+
+### 19.2 CLAUDE.md
+
+- **Short and stable.** It is paid for on every request of every session. Identity, links, rules
+  that apply to every task, commands, the account map. Target well under the recommended 200
+  lines.
+- **Rules are tagged by how they are enforced**: "fails loudly" (a hook or check blocks it) or
+  "manual" (attention only). A reader knows which rules have a safety net.
+- **Knowledge is loaded on a trigger.** `CLAUDE.md` says *when* to read a document ("before a
+  deploy, read the deploy checklist"), not the document itself.
+- **One source of truth:** a rule exists in one place; everything else points to it.
+- **The user-level `~/.claude/CLAUDE.md`** holds my personal defaults for every project:
+  language, writing style, safety floor, code style, commit style. Project files override it.
+
+### 19.3 Memory
+
+I use auto memory as a **working set**, not as an archive.
+
+- **Structure:** one fact per file with frontmatter (`name`, `description`, `type`), and a
+  `MEMORY.md` index with one line per memory. Four types:
+
+  | Type | Holds | Example |
+  | --- | --- | --- |
+  | `user` | who I am, preferences, expertise | "prefers plain-language explanations when asking why" |
+  | `feedback` | how I want work done, corrections and confirmed approaches, with the reason | "never merge without an explicit instruction" |
+  | `project` | work in flight, decisions, constraints not visible in the code, with absolute dates | "migration X waits for the client account (since 2026-08-29)" |
+  | `reference` | pointers to things that live elsewhere | "dashboard URL for the staging logs" |
+
+- **Body of a `feedback` or `project` memory:** the fact, then `Why:` and `How to apply:` lines.
+  Related memories link to each other by name.
+- **The test for every entry:** *would a session that never learns this do something wrong
+  today?* Yes: memory. No: it is history, and history belongs in the repository.
+- **The index has a hard ceiling** (the first 200 lines and about 25 KB are loaded). Entries are
+  one line under about 200 characters; detail goes into the topic file. When the index grows,
+  finished "in flight" items are removed first: identity and preferences converge, pointers are
+  bounded, only in-flight work grows and it is supposed to drain.
+- **Memory is a hint, not truth.** Before acting on a memory that names a file, function or state,
+  verify it (`ls`, `grep`, a query). Memories go stale.
+- **Write after success.** A memory is written or updated only after the thing it describes is
+  confirmed; a wrong memory is worse than none.
+- **Never store** secrets, customer data, or what the repository or git history already records.
+- **Lessons that repeat are promoted:** a one-line rule into `CLAUDE.md` or a role definition, a
+  procedure into a skill, enforcement into a hook (§ 16.1).
+
+### 19.4 Settings, permissions and isolation
+
+- **Committed project settings** (`.claude/settings.json`) carry the deny list (destructive and
+  network-exfiltration commands, reading or writing secret files) and the hook wiring. Personal
+  tweaks go into the local settings file, never committed.
+- **Unattended runs without permission prompts happen only inside an isolated VM or container**,
+  never on the host and never over untrusted content. The boundary is what makes skipping prompts
+  acceptable.
+- **An isolated VM is not worktree isolation:** two sessions on the same repository still need
+  separate worktrees (§ 19.11).
+- **Secrets** go through the platform CLIs and the OS keychain; never into settings, prompts,
+  command arguments or files the agent writes.
+
+### 19.5 Hooks
+
+- **Three kinds** (§ 6.3): security, process and structure. The structure guards (§ 15) are the
+  kind most often missing.
+- **One registry, generated wiring.** Each hook is declared once (event, matcher, script) and the
+  settings are generated from that registry, so wiring never drifts between files or tools.
+- **Guards follow the contract** of § 6.3: exit 2 with a reason on stderr blocks; any internal
+  failure lets the action through; escape hatches are named variables visible in the transcript;
+  every guard has tests with known-bad input.
+- **Reminder hooks shape behaviour cheaply.** A `UserPromptSubmit` hook injects a short reminder
+  (for example the rules for messages to me) so the first draft is right; a `Stop` hook only
+  backstops what the reminder missed.
+- **Guards I rely on:** no push to `main`, no force push, no destructive SQL without an escape
+  hatch, a pull request only with review stamps, a subagent brief must carry a time budget, a
+  subagent report must stay short, documents read at every start stay under a size cap.
+- **Hooks bind the session, not a human.** Branch protection and required CI remain the real
+  safety net.
+
+### 19.6 Subagents and roles
+
+- **Roles are subagents** (§ 4.1): analyst, architect, backend, frontend, data, QA, security,
+  performance, design roles, a mechanical helper and a memory keeper.
+- **Thin role files.** A role definition holds its boundaries, inputs, outputs and report format;
+  a long procedure lives in a skill the role reads. The role file loads on every spawn, the skill
+  only when needed.
+- **Every writing agent gets its own worktree and branch** (§ 9.2). Read-only agents (research,
+  review) may run concurrently.
+- **Every brief carries a time budget** and says what to do at expiry; a hook refuses a spawn
+  without it.
+- **Reports are short** (up to 20 lines); details go to a file the report names. A hook bounces a
+  longer report.
+- **One fresh agent reviews and runs QA** (§ 7 step 8); the author never reviews its own work.
+- **The mechanical helper** runs on a cheaper model, has no tool to spawn further agents and only
+  gets fully specified work.
+- **Briefs are complete, not compressed** (§ 16.4): the subagent sees only what I write.
+
+### 19.7 Skills
+
+- **Placement by the table in § 16.1:** always-needed one-liners in `CLAUDE.md`, triggered
+  procedures in skills, isolated work in subagents, reference material in documents.
+- **Descriptions are triggers** ("Use when ..."), one or two sentences, so skills fire where they
+  should and not elsewhere.
+- **Skills I use daily:** specification, discovery, work on an issue, review brief, session end,
+  deploy checklist, handover to a client, long unattended runs.
+- **A registry of skills** records name, origin, scope (repository or marketplace), source,
+  pinned version, license and whether it was vetted. A dangling reference to a missing skill is
+  the failure the registry catches.
+- **Third-party skills are vetted** before use (what they execute, network calls, license) and
+  pinned; skills that depend on an external package are installed from their official source.
+
+### 19.8 Plugins and a private marketplace
+
+- **The method repository is itself a private marketplace** (`.claude-plugin/marketplace.json`)
+  whose plugins bundle the skills that must work everywhere.
+- **Access is repository permission:** only collaborators of the private repository can add it.
+- **Install once per person:** `/plugin marketplace add <owner>/<repo>`, then
+  `/plugin install <plugin>@<marketplace>`; later `/plugin marketplace update <marketplace>`.
+- **No `version` field in the plugin manifests:** the commit versions each plugin, so an update
+  picks up a changed skill. A fixed version left every install on its first copy.
+- **A session started in the method repository installs missing plugins from its own marketplace
+  only** (never a third party's), can be switched off with an environment variable, and stays
+  silent when everything is present.
+- **Never copy skills into each project**; that is exactly the drift a marketplace prevents.
+
+### 19.9 MCP servers
+
+- **Few servers, chosen per project**, each with a clear job (issue tracker, docs, a data
+  source). A CLI or a skill is preferred when it does the job with less surface.
+- **External content from MCP tools has zero trust** (§ 13): instructions found in it are data,
+  never commands.
+- **Credentials** go through the server's login flow and the keychain; nothing in `.mcp.json`
+  that is committed.
+- **Project servers** live in `.mcp.json` only when the whole team needs them; personal servers
+  stay in the user scope.
+
+### 19.10 Context, models and sessions
+
+- **Model per job** (§ 12): the strongest model decides (planning, architecture, review), a
+  cheaper one executes from a precise pattern.
+- **Always-loaded files stay short** (CLAUDE.md, role definitions, memory index): they are paid
+  for on every request.
+- **One task per session.** A new task starts with a clean context; state comes from the issue
+  and the repository, not from the conversation (§ 8).
+- **After compaction, re-read the goal** (the read-back saved at the start), not the whole thread.
+- **Messages to me** lead with the outcome, a few lines, decisions as questions (§ 13).
+
+### 19.11 Parallel sessions and unattended runs
+
+- **One writer per worktree**, shared files owned by one task, waves by ownership (§ 9).
+- **I dispatch the issue number**; sessions never pick work themselves.
+- **Unattended runs** pass the pre-flight of § 8.5 first: plan graph, mocks for everything
+  external, premises validated, park-and-continue on open questions, state outside the session,
+  a proven runner, reconciliation at the end.
+- **Every recurring job** (loop, schedule, watcher) declares a goal, a plateau rule and a hard cap
+  (§ 8.6).
 
