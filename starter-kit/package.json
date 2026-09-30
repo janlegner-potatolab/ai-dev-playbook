@@ -1,0 +1,45 @@
+{
+  "name": "project",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "echo \"Define the build per workspace\" && exit 1",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint .",
+    "format:check": "prettier --check .",
+    "check:deps": "depcruise server client packages --config .dependency-cruiser.cjs",
+    "check:dead": "knip",
+    "check:structure": "npm run lint && npm run check:deps && npm run check:dead && tsx scripts/structure/run-all.ts",
+    "report:structure": "tsx scripts/structure/report.ts"
+  },
+  "devDependencies": {
+    "@eslint-community/eslint-plugin-eslint-comments": "^4.8.1",
+    "@eslint/js": "^10.0.1",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.0.0",
+    "@types/pg": "^8.23.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "dependency-cruiser": "^17.4.3",
+    "eslint": "^10.11.0",
+    "knip": "^6.39.0",
+    "prettier": "^3.9.9",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.71.0",
+    "vitest": "^4.1.11"
+  },
+  "dependencies": {
+    "express": "^5.2.1",
+    "pg": "^8.23.1",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "zod": "^4.6.5"
+  }
+}

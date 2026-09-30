@@ -1,0 +1,20 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "entry": [
+    "server/src/app.ts",
+    "server/src/index.ts",
+    "client/src/main.tsx",
+    "packages/contracts/src/index.ts",
+    "scripts/**/*.ts",
+    "e2e/**/*.ts",
+    "**/*.test.{ts,tsx}"
+  ],
+  "project": [
+    "server/src/**/*.ts",
+    "client/src/**/*.{ts,tsx}",
+    "packages/*/src/**/*.ts",
+    "scripts/**/*.ts"
+  ],
+  "ignore": ["**/dist/**", "**/build/**"],
+  "ignoreDependencies": ["@eslint-community/eslint-plugin-eslint-comments"]
+}

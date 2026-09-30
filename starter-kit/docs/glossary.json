@@ -1,0 +1,14 @@
+[
+  {
+    "term": "Order",
+    "code": "order",
+    "meaning": "A customer's confirmed request to buy items",
+    "forbidden": ["purchase"]
+  },
+  {
+    "term": "Customer",
+    "code": "customer",
+    "meaning": "The company or person the order is billed to",
+    "forbidden": ["buyer"]
+  }
+]

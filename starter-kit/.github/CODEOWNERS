@@ -1,0 +1,8 @@
+# Guard configs need owner approval. When a guard fails, fix the code, not the guard.
+/eslint.config.js          @{{OWNER}}
+/.dependency-cruiser.cjs   @{{OWNER}}
+/knip.json                 @{{OWNER}}
+/structure-baseline/       @{{OWNER}}
+/scripts/structure/        @{{OWNER}}
+/.claude/                  @{{OWNER}}
+/.github/CODEOWNERS        @{{OWNER}}
