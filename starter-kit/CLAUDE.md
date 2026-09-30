@@ -83,9 +83,9 @@ Secrets never go into code, commits, logs or command arguments; only environment
 
 ## Task protocol
 
-- **Start:** size the task, read the binding spec or ADR section, the full brief, its "Where it stands" section, then branch, worktree and open PRs. Build on the state, never restart. Write a one-paragraph read-back; its first line is the acceptance criterion this task moves.
+- **Start:** size the task, read the parent issue (purpose, rules, who merges), read the binding spec or ADR section, the full brief, its "Where it stands" section, then branch, worktree and open PRs. Build on the state, never restart. Write a one-paragraph read-back; its first line is the acceptance criterion this task moves.
 - **Scope rule:** moves the criterion -> do it; real defect outside it -> one line into a new task; anything else -> drop it.
-- **Issues:** one task = one GitHub issue with an "Assignment:" line; exactly one state label (`state:inbox`, `state:ready`, `state:doing`, `state:blocked`, `state:parked`); taking = assign yourself and move to `state:doing`; keep state in the issue's "Where it stands" section, not in comments; the PR says `Closes #<n>`. Prompts: the playbook's `prompts/`.
+- **Issues:** one task = one GitHub issue with an "Assignment:" line; exactly one state label (`state:inbox`, `state:ready`, `state:doing`, `state:blocked`, `state:parked`); taking = assign yourself and move to `state:doing`; keep state in the issue's "Where it stands" section, not in comments; the PR says `Closes #<n>`.
 - **End (always, without asking):** everything committed, PR opened and merged where allowed; rewrite "Where it stands"; clean up worktrees, temp files and processes; report done / waiting on decision / next.
 - Before "done": lint, typecheck, security scan, tests for touched code including callers in unchanged files.
 - Update `FEATURES.md`, `CHANGELOG.md` and the security register in the same change.

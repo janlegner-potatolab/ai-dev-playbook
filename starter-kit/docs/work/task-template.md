@@ -17,7 +17,7 @@
 
 <!-- Rewrite this section in place. Never append state as comments. -->
 
-**Brief:** {{link to binding document}}
+**Assignment:** {{link to binding document}}
 **Criteria:** {{criteria this task moves}}
 **Done:** {{what is finished}}
 **Next:** {{next step}}

@@ -6,7 +6,8 @@ only points.
 ```text
 Work issue #{{N}}.
 
-Before any edit, in this order: size the task; read the binding document and section named on
+Before any edit, in this order: size the task; read the parent issue (purpose, rules, who
+merges); read the binding document and section named on
 its "Assignment:" line; read the whole issue; read its "Where it stands" section and the comments
 people wrote since; check the branch, worktree and open pull requests. Build on that state, never
 start over.
@@ -21,7 +22,7 @@ criterion, do; a real defect outside it becomes a new state:ready sub-issue; any
 When a guard fails, fix the code, never the guard. Decisions come to me as choices with a
 recommendation.
 
-Done means: checks green, review and QA by a fresh agent (prompt 06), pull request with
+Done means: checks green, review and QA by a fresh agent (role `.claude/agents/qa.md`), pull request with
 "Closes #{{N}}", "Where it stands" rewritten. Report in at most 12 lines, first line: which
 criterion moved.
 ```

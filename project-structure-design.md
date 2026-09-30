@@ -494,7 +494,7 @@ State is not written as another comment; it rewrites one section in the task bod
 
 ```markdown
 ### Where it stands (YYYY-MM-DD)
-**Task brief:** link to the binding document
+**Assignment:** link to the binding document
 **Criteria:** acceptance criteria the task moves
 **Done:** what is completed
 **Next:** next step
@@ -1400,7 +1400,8 @@ are in `prompts/`; the GitHub issue form, pull request template and labels are i
 
 1. **Discovery document** (`docs/discovery/`), merged through a pull request; the human decides
    go, kill or redirect (§ 4.2).
-2. **Specification** (`docs/spec.md` or `docs/specs/<name>.md`) in the format of § 5.1, merged
+2. **Specification** (`docs/spec.md`; a project with several specifications uses
+   `docs/specs/<name>.md` and says so in `CLAUDE.md`) in the format of § 5.1, merged
    through a pull request after review. It names the milestones and their acceptance criteria.
 3. **Design and architecture** (§ 3.1, ADRs), also through pull requests.
 4. **Decomposition:** the orchestrator splits the current milestone into tasks sized
@@ -1474,12 +1475,13 @@ A task is **ready** only when points 1 to 6 are filled. A task the human still h
 ### 18.5 The pull request
 
 - **Title** in Conventional Commits form (`feat(orders): add confirm endpoint`).
-- **Body** (starter kit template): which acceptance criterion moved (first line), what changed,
-  evidence (test names, command output, browser steps), **Unverified**, how to test, decisions,
-  `Closes #<n>`.
+- **Body** (starter kit template): which acceptance criterion moved (first line), what and why,
+  what changed, how to test, expected result, evidence (test names, command output, browser
+  steps), **Unverified**, decisions, `Closes #<n>`.
 - **Review record:** review and QA by a fresh agent (§ 7 step 8), at most two rounds.
-- **Merge** by whoever the task says; merge that deploys is merged by a human unless the task
-  explicitly allows it (`standards/standard-git-ci.md` § 13).
+- **Merge** by whoever the task says; a merge that deploys is merged by a human, unless the task
+  explicitly allows the AI to merge including deployment to staging; production is always a
+  human's call (`standards/standard-git-ci.md` § 13).
 
 ### 18.6 Principles for instructing AI
 

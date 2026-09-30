@@ -6,14 +6,14 @@ body:
   - type: markdown
     attributes:
       value: |
-        Fill every field. A task is `state:ready` only when points 1 to 6 are filled; until then it
-        stays `state:inbox` with the open question written below.
+        Filed as `state:inbox`. When points 1 to 6 are filled and no open question remains,
+        relabel it to `state:ready`.
   - type: input
     id: assignment
     attributes:
       label: "1. Assignment"
-      description: 'Binding document and section, e.g. docs/specs/orders.md §M1. Write it as "Assignment: <path> §<section>".'
-      placeholder: "Assignment: docs/specs/<name>.md §M1"
+      description: 'Binding document and section, e.g. docs/spec.md §M1. Write it as "Assignment: <path> §<section>".'
+      placeholder: "Assignment: docs/spec.md §M1"
     validations:
       required: true
   - type: textarea
@@ -24,7 +24,7 @@ body:
       placeholder: |
         - [ ] ...
     validations:
-      required: true
+      required: false
   - type: textarea
     id: placement
     attributes:
@@ -35,21 +35,21 @@ body:
         Components: Button, TextField, DataState
         Reference file: server/src/orders/orderActions.ts
     validations:
-      required: true
+      required: false
   - type: textarea
     id: must-not-change
     attributes:
       label: "4. Must not change"
       description: DB schema, API contract, stored data, integrations, or the planned compatible change.
     validations:
-      required: true
+      required: false
   - type: textarea
     id: verification
     attributes:
       label: "5. Verification"
       description: Which tests, against what running system, what evidence goes into the pull request.
     validations:
-      required: true
+      required: false
   - type: dropdown
     id: size
     attributes:
@@ -59,7 +59,7 @@ body:
         - medium (several files in one area)
         - large (30+ steps, 5+ files or a new feature; split into sub-issues)
     validations:
-      required: true
+      required: false
   - type: dropdown
     id: merge
     attributes:
@@ -68,7 +68,7 @@ body:
         - human
         - AI after review and green CI (no deployment on merge)
     validations:
-      required: true
+      required: false
   - type: textarea
     id: open-question
     attributes:

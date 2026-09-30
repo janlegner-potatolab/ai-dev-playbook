@@ -6,7 +6,7 @@ number; sessions never pick work themselves.
 One line per terminal window:
 
 ```text
-Read docs/work/parallel-runbook.md (Rules section) and follow it for the whole session. Work issue #{{N}}.
+Read docs/work/parallel-runbook.md and follow it for the whole session. Work issue #{{N}}.
 ```
 
 Before opening the next wave, check:

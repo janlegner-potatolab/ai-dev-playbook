@@ -8,7 +8,7 @@ Run a discovery for {{IDEA}}. Do not write code and do not write a specification
 
 Context: {{ONE_PARAGRAPH_CONTEXT}}. Users: {{WHO}}. Constraints: {{BUDGET_TIME_TECH}}.
 
-Produce docs/discovery/{{NAME}}.md from the template docs/discovery/discovery.md, with:
+Fill in docs/discovery/discovery.md (the template in place), with:
 1. Premise: the real goal behind the request, whether it is the right problem, the cheaper
    alternative (including doing nothing and a spreadsheet), buy vs build.
 2. Demand: numbers with source and date, or named users and frequency. If data is not available,
