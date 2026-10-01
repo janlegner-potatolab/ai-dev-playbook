@@ -4,5 +4,7 @@
 /knip.json                 @{{OWNER}}
 /structure-baseline/       @{{OWNER}}
 /scripts/structure/        @{{OWNER}}
+/scripts/acceptance/       @{{OWNER}}
 /.claude/                  @{{OWNER}}
+/.github/workflows/        @{{OWNER}}
 /.github/CODEOWNERS        @{{OWNER}}

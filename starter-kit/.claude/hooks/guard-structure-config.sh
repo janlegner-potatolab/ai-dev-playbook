@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # guard-structure-config.sh - PreToolUse(Edit|Write|MultiEdit): protect the guards (S18).
 # Blocks edits to eslint.config.js, .dependency-cruiser.cjs, knip.json,
-# structure-baseline/**, scripts/structure/** and .claude/**.
+# structure-baseline/**, scripts/structure/**, scripts/acceptance/** and .claude/**.
 # Escape hatch: ALLOW_GUARD_EDIT=1 in the environment (set by the human for the session).
 # Contract: FAIL-OPEN. Missing jq or unreadable input exits 0.
 set -uo pipefail
@@ -21,7 +21,7 @@ fi
 rel="${rel#./}"
 
 case "$rel" in
-  eslint.config.js|.dependency-cruiser.cjs|knip.json|structure-baseline/*|scripts/structure/*|.claude/*) ;;
+  eslint.config.js|.dependency-cruiser.cjs|knip.json|structure-baseline/*|scripts/structure/*|scripts/acceptance/*|.claude/*) ;;
   *) exit 0 ;;
 esac
 

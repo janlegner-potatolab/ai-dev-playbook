@@ -16,7 +16,9 @@
     "check:deps": "depcruise server client packages --config .dependency-cruiser.cjs",
     "check:dead": "knip",
     "check:structure": "npm run lint && npm run check:deps && npm run check:dead && tsx scripts/structure/run-all.ts",
-    "report:structure": "tsx scripts/structure/report.ts"
+    "report:structure": "tsx scripts/structure/report.ts",
+    "acceptance": "tsx scripts/acceptance/run.ts",
+    "acceptance:ci": "tsx scripts/acceptance/ci.ts"
   },
   "devDependencies": {
     "@eslint-community/eslint-plugin-eslint-comments": "^4.8.1",

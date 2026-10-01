@@ -1,0 +1,39 @@
+# Acceptance gate. Decides whether a pull request is done by running the checks in
+# docs/acceptance/<N>.md for every issue the PR body closes (Closes|Fixes|Resolves #N),
+# instead of trusting the author's own claim. The criteria file must already be merged:
+# if it is missing, or added or changed in this PR, the job fails. The commands it runs
+# therefore come from files that were reviewed on the base branch before the work.
+# Make the `acceptance` job a required status check in the branch protection of main.
+name: Acceptance
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+concurrency:
+  group: acceptance-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  acceptance:
+    name: acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0 # the gate diffs against origin/<base branch>
+
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install from lockfile
+        run: npm ci
+
+      - name: Run acceptance criteria
+        run: npm run acceptance:ci

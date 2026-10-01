@@ -20,6 +20,14 @@
 
 - {{DECISION}}, because {{REASON}}.
 
+## Acceptance criteria
+
+The contract this decision commits to. Every criterion is observable and testable; a
+specification restates them test-shaped and names the stage that closes each.
+
+- [ ] AC1: {{WHAT_MUST_BE_TRUE}}
+- [ ] AC2: {{WHAT_MUST_NOT_HAPPEN}}
+
 ## Consequences
 
 - Positive:
