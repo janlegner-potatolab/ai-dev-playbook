@@ -9,32 +9,37 @@ the project's README.
 
 ## 1 · What is inside
 
-| Path                                      | Contents                                                                                                                                                                | Guide                 |
-| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
-| `CLAUDE.md`                               | project identity, structure rules, commands, security, deployment, task protocol                                                                                        | § 6.1                 |
-| `.claude/settings.json`                   | command deny list, no reading or writing of sensitive files, hook wiring                                                                                                | § 6.2                 |
-| `.claude/hooks/`                          | guards for git, destructive SQL, branch freshness, uncommitted work and structure                                                                                       | § 6.3, § 15.6         |
-| `.claude/agents/`                         | roles: analyst, architect, backend, frontend, data, QA, security, performance, mechanical helper                                                                        | § 4.1, § 16.2         |
-| `eslint.config.js`                        | S1, S2, S6, S10, S12, S13, S17, S19                                                                                                                                     | § 15.4                |
-| `.dependency-cruiser.cjs`                 | S3, S4, S5, S8, S9                                                                                                                                                      | § 15.4                |
-| `knip.json`                               | S11 dead code                                                                                                                                                           | § 15.4                |
-| `scripts/structure/`                      | S10 size ratchet, S14 names, S15 migrations, S16 tests, S18 exceptions, S20 report                                                                                      | § 15.4                |
-| `structure-baseline/`                     | exception lists (baseline) for the ratchet (new project: empty)                                                                                                         | § 15.5                |
-| `.github/workflows/ci.yml`                | CI: install from lockfile, lint, typecheck, format, structure checks, tests, security audit, build                                                                      | § 15.6                |
-| `.github/ISSUE_TEMPLATE/task.yml`         | issue form for one task: assignment, criteria, placement, must not change, verification, size, who merges, "Where it stands"                                            | § 18.4                |
-| `.github/pull_request_template.md`        | pull request body: criterion moved, evidence, unverified, how to test, decisions                                                                                        | § 18.5                |
-| `scripts/setup-labels.sh`                 | creates the five state labels with `gh`                                                                                                                                 | § 18.3                |
-| `.github/CODEOWNERS`                      | protection of guard configuration                                                                                                                                       | § 15.4 S18            |
-| `docs/discovery/`                         | discovery template                                                                                                                                                      | § 4.2                 |
-| `docs/spec-template.md`                   | specification template                                                                                                                                                  | § 5.1                 |
-| `docs/domain.md`, `docs/glossary.json`    | domain model and glossary                                                                                                                                               | § 3, § 15.4 S14       |
-| `docs/architecture.md`, `docs/adr/`       | one-page architecture, ADR template                                                                                                                                     | § 3                   |
-| `docs/design/`                            | design tokens and component specifications                                                                                                                              | § 3.1                 |
-| `docs/security/VULNERABILITIES.md`        | security register                                                                                                                                                       | § 6.4                 |
-| `docs/work/`                              | task brief and task status template, parallel work runbook                                                                                                              | § 5.2, § 8.3, § 9     |
-| `FEATURES.md`, `CHANGELOG.md`             | what the application does, release notes                                                                                                                                | § 6.4                 |
-| `server/`, `client/`, `packages/`, `e2e/` | folder skeleton according to § 1 with a reference area (see next row)                                                                                                   | § 1                   |
-| reference area `orders`                   | code to copy: contract, `defineRoute`, action with Idempotency-Key, cursor pagination, SQL with tenant, migration with RLS, UI components, page with four states, tests | § 1, § 2, § 15 S6, S7 |
+| Path                                      | Contents                                                                                                                                                                                | Guide                 |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------- |
+| `CLAUDE.md`                               | project identity, structure rules, commands, security, deployment, task protocol                                                                                                        | § 6.1                 |
+| `.claude/settings.json`                   | command deny list, no reading or writing of sensitive files, hook wiring                                                                                                                | § 6.2                 |
+| `.claude/hooks/`                          | guards for git, destructive SQL, branch freshness, uncommitted work and structure                                                                                                       | § 6.3, § 15.6         |
+| `.claude/agents/`                         | roles: analyst, architect, backend, frontend, data, QA, security, performance, mechanical helper                                                                                        | § 4.1, § 16.2         |
+| `eslint.config.js`                        | S1, S2, S6, S10, S12, S13, S17, S19                                                                                                                                                     | § 15.4                |
+| `.dependency-cruiser.cjs`                 | S3, S4, S5, S8, S9                                                                                                                                                                      | § 15.4                |
+| `knip.json`                               | S11 dead code                                                                                                                                                                           | § 15.4                |
+| `scripts/structure/`                      | S10 size ratchet, S14 names, S15 migrations, S16 tests, S18 exceptions, S20 report                                                                                                      | § 15.4                |
+| `structure-baseline/`                     | exception lists (baseline) for the ratchet (new project: empty)                                                                                                                         | § 15.5                |
+| `.github/workflows/ci.yml`                | CI: install from lockfile, lint, typecheck, format, structure checks, tests, security audit, build                                                                                      | § 15.6                |
+| `scripts/acceptance/`                     | acceptance runner: runs the commands in `docs/acceptance/<issue>.md`, rejects the whole file on any line that looks like a task item but does not parse; `npm run acceptance -- <file>` | § 20                  |
+| `.github/workflows/acceptance.yml`        | PR gate `acceptance`: runs the criteria of every issue the PR closes; the criteria file must already be on the base branch                                                              | § 20                  |
+| `docs/acceptance/`                        | one criteria file per issue (`<issue-number>.md`), merged through its own PR before the work starts                                                                                     | § 20                  |
+| `.github/ISSUE_TEMPLATE/task.yml`         | issue form for one task: assignment, criteria, placement, must not change, verification, size, who merges, "Where it stands"                                                            | § 18.4                |
+| `.github/pull_request_template.md`        | pull request body: criterion moved, evidence, unverified, how to test, decisions                                                                                                        | § 18.5                |
+| `scripts/setup-labels.sh`                 | creates the five state labels with `gh`                                                                                                                                                 | § 18.3                |
+| `.github/CODEOWNERS`                      | protection of guard configuration                                                                                                                                                       | § 15.4 S18            |
+| `docs/discovery/`                         | discovery template                                                                                                                                                                      | § 4.2                 |
+| `docs/spec-template.md`                   | specification template                                                                                                                                                                  | § 5.1                 |
+| `docs/domain.md`, `docs/glossary.json`    | domain model and glossary                                                                                                                                                               | § 3, § 15.4 S14       |
+| `docs/architecture.md`, `docs/adr/`       | one-page architecture, ADR template                                                                                                                                                     | § 3                   |
+| `docs/design/`                            | design tokens and component specifications                                                                                                                                              | § 3.1                 |
+| `docs/security/VULNERABILITIES.md`        | security register                                                                                                                                                                       | § 6.4                 |
+| `docs/work/`                              | task brief and task status template, parallel work runbook                                                                                                                              | § 5.2, § 8.3, § 9     |
+| `docs/work/milestone-close.md`            | close record: every criterion of the governing documents mapped to outcome and evidence                                                                                                 | § 20                  |
+| `.claude/hooks/check-spec-format.py`      | called by the git guard at `gh pr create`: a specification needs its seven sections and an acceptance checklist per milestone (`ALLOW_SPEC_FORMAT=1` to bypass)                         | § 5.1, § 20           |
+| `FEATURES.md`, `CHANGELOG.md`             | what the application does, release notes                                                                                                                                                | § 6.4                 |
+| `server/`, `client/`, `packages/`, `e2e/` | folder skeleton according to § 1 with a reference area (see next row)                                                                                                                   | § 1                   |
+| reference area `orders`                   | code to copy: contract, `defineRoute`, action with Idempotency-Key, cursor pagination, SQL with tenant, migration with RLS, UI components, page with four states, tests                 | § 1, § 2, § 15 S6, S7 |
 
 ## 2 · Prerequisites
 
@@ -65,7 +70,7 @@ the project's README.
 8. **GitHub work queue:** run `scripts/setup-labels.sh` once to create the state labels; the
    issue form and pull request template work as soon as they are on the default branch
    (guide § 18).
-9. **Protection of the `main` branch on GitHub:** required check from `ci.yml`, no direct push.
+9. **Protection of the `main` branch on GitHub:** required checks `verify` (from `ci.yml`) and `acceptance` (from `acceptance.yml`), no direct push.
    CODEOWNERS applies only with "Require review from Code Owners" enabled.
 10. **First commit on a branch, PR, CI green.** Then the reference area (§ 3 step 12).
 
@@ -101,9 +106,13 @@ A block always states the reason. Escape hatches are for emergencies and are vis
   and `npm test` (30 tests, vitest); control run: after disabling the body fingerprint comparison for
   Idempotency-Key, the test "rejects the same key with a different body" failed.
 
+- the acceptance runner (`scripts/acceptance/`): 33 vitest tests (valid file, failure does not stop the rest, timeout,
+  eleven malformed task-item shapes, missing command, no entries, missing or mismatched `Item:`, PR gate against a real
+  temp git repo); control run: with the shape check disabled, 12 tests failed;
+
 **Not verified:**
 
-- `ci.yml` has not yet run on GitHub;
+- `ci.yml` and `acceptance.yml` have not yet run on GitHub;
 - `knip` has not run against real entry points (on an empty repo it only suggests refining patterns,
   exit 0);
 - tests ran on Node 25, CI is on Node 22.

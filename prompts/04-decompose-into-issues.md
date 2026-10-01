@@ -21,5 +21,8 @@ After I approve:
    acceptance criteria, area and layer, must not change, verification, size, who merges.
    Label shaped tasks state:ready and tasks that wait on my answer state:inbox with the question
    in the body. Add "blocked by" links for dependencies.
-8. Report the issue numbers per wave.
+8. For every task issue, open ONE pull request that adds `docs/acceptance/<issue>.md`
+   (format: docs/acceptance/README.md): each statement copied from the binding document and the
+   command that decides it. These criteria are merged before anyone works on the task.
+9. Report the issue numbers per wave and the acceptance pull request.
 ```

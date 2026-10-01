@@ -22,8 +22,12 @@ criterion, do; a real defect outside it becomes a new state:ready sub-issue; any
 When a guard fails, fix the code, never the guard. Decisions come to me as choices with a
 recommendation.
 
-Done means: checks green, review and QA by a fresh agent (role `.claude/agents/qa.md`), pull request with
-"Closes #{{N}}", "Where it stands" rewritten. Report in at most 12 lines, first line: which
+Never edit docs/acceptance/{{N}}.md in this work; if a criterion is wrong, stop and ask (a change
+to the criteria is its own pull request).
+
+Done means: `npm run acceptance -- docs/acceptance/{{N}}.md` passes locally, checks green,
+review and QA by a fresh agent (role `.claude/agents/qa.md`), pull request with "Closes #{{N}}"
+and a green `acceptance` check, "Where it stands" rewritten. Report in at most 12 lines, first line: which
 criterion moved.
 ```
 

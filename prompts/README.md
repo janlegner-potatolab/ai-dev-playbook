@@ -17,6 +17,8 @@ they assume the project was set up from the starter kit (`CLAUDE.md`, `docs/`, r
 | [`08-session-end.md`](08-session-end.md) | a session must close cleanly |
 | [`09-overnight-run.md`](09-overnight-run.md) | work will run without a human watching |
 | [`10-parallel-dispatch.md`](10-parallel-dispatch.md) | several sessions run in parallel |
+| [`11-acceptance-criteria.md`](11-acceptance-criteria.md) | a task needs its acceptance file before it becomes ready |
+| [`12-milestone-close.md`](12-milestone-close.md) | every issue of a milestone is closed or parked |
 
 Rules that apply to every prompt (guide § 18.6): point to documents, name the acceptance
 criterion, ask for a read-back, state limits and verification, decisions come back as questions.

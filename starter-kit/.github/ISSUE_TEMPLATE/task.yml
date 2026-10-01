@@ -47,7 +47,7 @@ body:
     id: verification
     attributes:
       label: "5. Verification"
-      description: Which tests, against what running system, what evidence goes into the pull request.
+      description: Which tests, against what running system, what evidence goes into the pull request. The acceptance file docs/acceptance/<this issue>.md is merged before work starts (guide § 20).
     validations:
       required: false
   - type: dropdown

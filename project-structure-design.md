@@ -30,7 +30,8 @@ rest. That is why the right **process** and the right **code structure** are enf
 9 parallel work · 10 deployment and operations · 11 typical AI failures · 12 model choice ·
 13 communication, security and memory · 14 checklist · 15 structure guards (detail) ·
 16 configuring the AI itself · 17 related standards ·
-18 from specification to issues and prompts · 19 my Claude Code setup
+18 from specification to issues and prompts · 19 my Claude Code setup ·
+20 specification-driven development
 
 ## 1 · Project structure
 
@@ -293,13 +294,17 @@ does not need an orchestrator and five phases, a large one always does.
 
 **Seven sections in this order:**
 
-1. **Problem:** what is wrong today in the user's world, not in the code.
+1. **Problem Statement:** what is wrong today in the user's world, not in the code.
 2. **Goal:** a few points on what holds once it is done.
-3. **How to build:** from which sources, and what in them does not apply literally.
+3. **How to Build:** from which sources, and what in them does not apply literally.
 4. **Scope:** milestones, named and ordered.
 5. **Out of scope:** what is not built and who owns it.
 6. **Milestones:** for each, a one-sentence goal, acceptance criteria as a checklist, use cases.
-7. **Definition of done:** a checklist that closes the whole document.
+7. **Definition of Done:** a checklist that closes the whole document.
+
+Use these seven headings exactly (`## 1. Problem Statement` ... `## 7. Definition of Done`): the
+spec-format guard in the starter kit recognizes a specification by them and refuses a pull
+request whose specification lacks a section or a milestone without an acceptance checklist.
 
 **Six writing rules:**
 
@@ -755,6 +760,7 @@ Suspected prompt injection = stop, record it, flag it.
 - [ ] skeleton review by a senior
 - [ ] role definitions, review process, task brief and status templates
 - [ ] GitHub issue form, pull request template and state labels (§ 18)
+- [ ] acceptance runner and the `acceptance` workflow as a required check (§ 20)
 - [ ] milestone M0 defined and approved
 
 ## 15 · Structure guards (detail)
@@ -1542,6 +1548,8 @@ Ready-to-copy prompts with `{{placeholders}}`, one file per step, in `prompts/`:
 | `08-session-end.md` | close a session cleanly |
 | `09-overnight-run.md` | pre-flight for an unattended run |
 | `10-parallel-dispatch.md` | dispatch several sessions in waves |
+| `11-acceptance-criteria.md` | write and merge a task's acceptance file before work |
+| `12-milestone-close.md` | reconcile a milestone against the signed text |
 
 ## 19 · My Claude Code setup
 
@@ -1726,4 +1734,107 @@ I use auto memory as a **working set**, not as an archive.
   a proven runner, reconciliation at the end.
 - **Every recurring job** (loop, schedule, watcher) declares a goal, a plateau rule and a hard cap
   (§ 8.6).
+
+## 20 · Specification-driven development
+
+The specification is not background reading; it **drives** the work. Decisions and their
+criteria are written first, turned into executable checks that are red, approved, and only then
+built. "Done" is decided by those checks, never by the agent's own account. This chapter puts the
+pieces of § 4.2, § 5, § 7 and § 18 into one procedure and shows what happens on GitHub at each
+step.
+
+### 20.1 The idea in four rules
+
+1. **A chain of governing documents.** ADR (decision and acceptance criteria: the contract) →
+   specification (the same criteria restated test-shaped, split into milestones) → task issues
+   (each moves named criteria) → acceptance files (each criterion with the command that decides
+   it). Every document names the one above it; **where two disagree, the one above wins**.
+2. **Criteria before code.** Each milestone starts with its acceptance suite: written first,
+   red, approved by a human. Each task's acceptance file is merged before work on the task starts.
+3. **Done is decided by a runner.** A script runs the reviewed checks; a pull request cannot merge
+   while they fail. An agent's "done, tests pass" is a claim, not evidence (§ 11).
+4. **Close against the signed text.** A milestone ends with a record that maps every criterion to
+   evidence, not with a glance at the merged pull requests.
+
+### 20.2 The procedure and what GitHub shows
+
+| # | Step | Who | Artifact | What GitHub shows | Prompt |
+| --- | --- | --- | --- | --- | --- |
+| 1 | Decide | human with AI | `docs/adr/NNNN-<slug>.md` with **Acceptance criteria** (AC1, AC2, ...) | a PR with the ADR; review comments; merge | 01 (discovery), then ADR template |
+| 2 | Specify | analyst role | specification with the header "Governing document: ADR NNNN" and "Status: specified"; milestones; every ADR criterion mapped to a milestone | a PR; the spec-format guard checks the required sections when the PR is opened | 02, 03 |
+| 3 | Suite red | AI, approved by human | tests or check scripts for the milestone's criteria; they run and fail | a PR; CI runs the suite, which is red **by design** (marked as expected); status line "suite red"; the human approves | 02 |
+| 4 | Decompose | orchestrator | parent issue (`Assignment: <spec> §M1`) and sub-issues per task, waves and ownership | issues with `state:inbox` or `state:ready`, sub-issue tree, "blocked by" links | 04 |
+| 5 | Criteria per task | AI, reviewed | `docs/acceptance/<issue>.md`: each criterion with its deciding command | one PR per task (or per wave) with only acceptance files; merged **before** the task moves to `state:ready` | 11 |
+| 6 | Work | session on one issue | branch, code, tests, read-back | issue `state:doing` with an assignee; "Where it stands" rewritten; a PR with `Closes #<n>` | 05 |
+| 7 | Prove done | runner in CI | the `acceptance` workflow runs the issue's acceptance file | required check **acceptance**: green, or red with the failing criteria in the job summary; merge is blocked while red | (automatic) |
+| 8 | Review and merge | fresh agent, then merger | review and QA record | review comments, at most two rounds; squash merge closes the issue; the parent shows progress | 06 |
+| 9 | Close milestone | AI, accepted by human | `docs/work/milestone-close-<M>.md`: every criterion → outcome → evidence; spec status updated | a PR with the close record; the human's acceptance recorded verbatim; the parent issue closed | 12 |
+
+### 20.3 The acceptance file and the runner
+
+- **File:** `docs/acceptance/<issue-number>.md` (format and rules in the starter kit,
+  `docs/acceptance/README.md`):
+
+  ```markdown
+  # Order confirmation
+  Item: #42
+
+  - [ ] Confirming a submitted order sets its state to confirmed
+        `npm test -- server/src/orders/orderActions.test.ts`
+  - [ ] Confirming an already confirmed order is rejected with 409
+        `npm test -- -t "rejects double confirm"`
+  ```
+
+- **Runner** (`npm run acceptance -- <file>`): validates the file, runs every command, prints a
+  table, exits `0` (all passed), `1` (at least one failed; the rest still run) or `2` (invalid
+  file; nothing ran).
+- **Fail closed:** a line that looks like a checklist item but does not parse, an entry without a
+  command, a missing or wrong `Item:` line, or a file without entries rejects the whole file. A
+  malformed line that was silently skipped would turn a failing criterion into a pass.
+- **In CI** (`npm run acceptance:ci`, workflow `acceptance`): reads the issues the PR closes
+  (`Closes #n`), and for each:
+
+  | Situation | Result |
+  | --- | --- |
+  | no linked issue | pass with a notice (not a task PR) |
+  | `docs/acceptance/<n>.md` missing | **fail**: write and merge the criteria first |
+  | the acceptance file is added or changed in this same PR | **fail**: criteria must be merged before the work, not changed with it |
+  | file present and unchanged | run it; pass only if every criterion passes |
+
+- **Make `acceptance` a required status check** on `main` together with CI. The workflow re-runs
+  when the PR description is edited, so adding `Closes #n` later is picked up.
+- **Commands come from reviewed files** on the base branch; the job has read-only permissions.
+
+### 20.4 Status of a specification
+
+The header line moves with the work and is updated in the same pull request that moves it:
+
+| Status | Means |
+| --- | --- |
+| `specified` | merged, no suite yet |
+| `suite red` | the acceptance suite exists, runs, fails as expected, and is approved |
+| `building` | tasks are in progress; some criteria are green |
+| `done` | the milestone close record shows every criterion met or explicitly deferred, and the human accepted |
+
+### 20.5 When something goes wrong
+
+| Situation | What happens |
+| --- | --- |
+| A criterion turns out to be wrong during work | the session stops and asks; a fix to the criterion is its own PR with a reason; the work PR waits |
+| The specification and the ADR disagree | the ADR wins; the conflict is recorded and the specification amended through a PR |
+| The ADR itself must change | a dated amendment in the ADR (never a silent rewrite), then the specification and acceptance files follow |
+| `acceptance` is red | the PR does not merge; the failing criteria are in the job summary; the agent fixes while it has context, or the task is parked with a reason |
+| A command cannot run in CI (needs a service) | the criterion is rewritten to a check that can run (a mock, a contract test), or marked for the milestone close with manual evidence; never deleted silently |
+| A task is done but a criterion of the milestone is not covered by any task | found at the milestone close; becomes a new task with its own acceptance file |
+| Someone edits the acceptance file inside the work PR | `acceptance` fails by design |
+
+### 20.6 Roles in short
+
+- **Human:** approves the ADR, the suite red, the decomposition and the milestone close;
+  answers questions; deploys.
+- **Analyst and architect roles:** ADR, specification, mapping of criteria to milestones.
+- **Orchestrator:** decomposition into waves and issues, dispatch.
+- **Developer roles:** acceptance files (reviewed), then the work.
+- **QA role:** reviews against the contract, runs the acceptance file, records evidence.
+- **Runner and CI:** decide done.
 

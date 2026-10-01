@@ -18,7 +18,7 @@ mechanisms (guards, gates, templates), not by sentences in a document.
 | Path | What it is | When to read |
 | --- | --- | --- |
 | [`fundamentals/`](fundamentals/) | General knowledge about Claude Code, one topic per file, with links to the official docs | When a building block is new to you, or to look up how it works |
-| [`project-structure-design.md`](project-structure-design.md) | The main guide: project structure, structure rules, build process, how AI development is organized, session management, deployment, typical AI failure modes, structure guards, the flow from specification to issues, and my Claude Code setup (§ 19) | Always; § 0 is a one-page summary |
+| [`project-structure-design.md`](project-structure-design.md) | The main guide: project structure, structure rules, build process, how AI development is organized, session management, deployment, typical AI failure modes, structure guards, the flow from specification to issues (§ 18), my Claude Code setup (§ 19) and specification-driven development with an acceptance runner (§ 20) | Always; § 0 is a one-page summary |
 | [`standards/`](standards/) | Engineering standards: API design, database, domain design, frontend, testing, security, git and CI/CD, performance, data, stack selection, releases | When working on that area; index in § 17 of the guide |
 | [`prompts/`](prompts/) | Ready-to-copy prompts for each step: discovery, specification, spec review, splitting a milestone into GitHub issues, working an issue, review and QA, bug report, session end, overnight run, parallel dispatch | Every time you start a step; the flow is in § 18 of the guide |
 | [`starter-kit/`](starter-kit/) | Files to copy into a new repo: `CLAUDE.md`, agent roles, document templates, guard hooks, ESLint and dependency rules, CI, GitHub issue and PR templates, structure checks and a tested reference area | When starting a project; see [`starter-kit/README.md`](starter-kit/README.md) |
@@ -58,8 +58,9 @@ mechanisms (guards, gates, templates), not by sentences in a document.
 3. Run discovery and write the specification (§ 4.2, § 5; prompts 01 to 03).
 4. After a "go" decision and an architecture draft, copy `starter-kit/` into the new repository
    and follow its README.
-5. Split the first milestone into GitHub issues (§ 18, prompt 04) and start sessions per issue
-   (prompt 05).
+5. Split the first milestone into GitHub issues (§ 18, prompt 04), merge each task's acceptance
+   file (prompt 11), then start sessions per issue (prompt 05). "Done" is decided by the
+   `acceptance` check, not by the agent (§ 20).
 
 ## Structure guards at a glance
 
